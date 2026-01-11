@@ -1,4 +1,4 @@
-package com.salmontt.model;
+package com.speedfast.model;
 
 public class PedidoExpress extends Pedido{
 

@@ -1,4 +1,4 @@
-package com.salmontt.model;
+package com.speedfast.model;
 
 import java.util.UUID;
 

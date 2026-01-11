@@ -1,6 +1,6 @@
-package com.salmontt.app;
+package com.speedfast.app;
 
-import com.salmontt.model.*;
+import com.speedfast.model.*;
 
 public class Main {
     static void main() {
