@@ -1,6 +1,10 @@
 package com.speedfast.model;
 
-public class PedidoExpress extends Pedido{
+import com.speedfast.model.interfaces.Cancelable;
+import com.speedfast.model.interfaces.Despachable;
+import com.speedfast.model.interfaces.Rastreable;
+
+public class PedidoExpress extends Pedido implements Cancelable, Despachable, Rastreable {
 
     public PedidoExpress(String direccionEntrega, float distanciaKm) {
         super(direccionEntrega, distanciaKm);
@@ -11,12 +15,28 @@ public class PedidoExpress extends Pedido{
     }
 
     @Override
+    public void cancelar() {
+        System.out.println("Cancelando pedido " + getIdPedido());
+    }
+
+    @Override
+    public void despachar() {
+        System.out.println("Pedido \'" + getIdPedido() + "\' de tipo: " + getTipoPedido() + " ha salido a despacho con exito");
+    }
+
+    @Override
+    public void verHistorial() {
+        System.out.println("HISTORIAL");
+    }
+
+    @Override
     public void asignarRepartidor() {
         super.asignarRepartidor();
         System.out.println("asignando repartidor mas cercano");
     }
 
     public void asignarRepartidor(String nombreRepartidor) {
+        setRepartidor(nombreRepartidor);
         System.out.println("asignando a "+ nombreRepartidor +" quien es el mas cercano" + ". Tu pedido se demorara: " + getTiempoEstimadoEntregaMins() + " mins.");
     }
 

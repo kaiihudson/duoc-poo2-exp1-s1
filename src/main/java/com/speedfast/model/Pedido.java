@@ -1,13 +1,16 @@
 package com.speedfast.model;
 
+import com.speedfast.model.interfaces.Pedidos;
+
 import java.util.UUID;
 
-public abstract class Pedido implements Pedidos{
+public abstract class Pedido implements Pedidos {
     private final UUID idPedido;
     private final String direccionEntrega;
     private final float distanciaKm;
     private float tiempoEstimadoEntregaMins;
     private TipoPedido tipoPedido;
+    private String repartidor;
 
     public Pedido(String direccionEntrega, float distanciaKm) {
         this.distanciaKm = distanciaKm;
@@ -21,6 +24,10 @@ public abstract class Pedido implements Pedidos{
 
     public String getDireccionEntrega() {
         return direccionEntrega;
+    }
+
+    public TipoPedido getTipoPedido() {
+        return tipoPedido;
     }
 
     public float getDistanciaKm() {
@@ -39,12 +46,17 @@ public abstract class Pedido implements Pedidos{
         this.tipoPedido = tipoPedido;
     }
 
+    public void setRepartidor(String repartidor) {
+        this.repartidor = repartidor;
+    }
+
     public void asignarRepartidor(){
         System.out.println("asignando repartidor");
     }
 
     public void mostrarResumen(){
-        System.out.println("LOGINFO: { Pedido: " + idPedido + ". Tipo: " + tipoPedido + ". Direccion: " + direccionEntrega + ". Distancia: " + distanciaKm + " Km }");
+        System.out.println("LOGINFO: { Pedido: " + idPedido + ". Tipo: " + tipoPedido + ". Direccion: "
+                + direccionEntrega + ". Distancia: " + distanciaKm + " Km. Repartidor Asignado:  " + repartidor + " }");
     }
 
     public abstract void calcularTiempoEntrega();
