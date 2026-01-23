@@ -1,28 +1,23 @@
 package com.speedfast.app;
 
-import com.speedfast.model.*;
+import com.speedfast.controller.GestorPedidos;
 
 public class Main {
-    static void main() {
-        // comida
-        System.out.println("[Comida]");
-        PedidoComida pedidoComida = new PedidoComida("casa1", 10);
-        pedidoComida.mostrarResumen();
-        pedidoComida.asignarRepartidor("nombre1");
-        // encomienda
-        System.out.println("[Encomienda]");
-        PedidoEncomienda pedidoEncomienda = new PedidoEncomienda("casa1", 110, 2, "paquete");
-        pedidoEncomienda.mostrarResumen();
-        pedidoEncomienda.asignarRepartidor("nombre2");
-        // express corto
-        System.out.println("[Express Corto]");
-        PedidoExpress pedidoExpressCorto = new PedidoExpress("casa3", 3);
-        pedidoExpressCorto.mostrarResumen();
-        pedidoExpressCorto.asignarRepartidor("nombre3");
-        // express largo
-        System.out.println("[Express Largo]");
-        PedidoExpress pedidoExpressLargo = new PedidoExpress("casa3", 15);
-        pedidoExpressLargo.mostrarResumen();
-        pedidoExpressLargo.asignarRepartidor("nombre4");
+    static void main(String[] args) {
+        GestorPedidos gestor = new GestorPedidos();
+        // crear instancias de los objetos
+        gestor.crearPedidoComida("calle1");
+        gestor.crearPedidoEncomienda("calle2", "papel", 2);
+        gestor.crearPedidoExpress("calle3");
+
+        // verificar funcionamiento
+        System.out.println("=".repeat(30));
+        gestor.mostrarTodoDato();
+        System.out.println("=".repeat(30));
+        gestor.despacharTodos();
+        System.out.println("=".repeat(30));
+        gestor.cancelarTodos();
+        System.out.println("=".repeat(30));
+        gestor.mostrarTodoHistorial();
     }
 }

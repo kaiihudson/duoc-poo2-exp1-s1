@@ -1,51 +1,49 @@
 package com.speedfast.model;
 
+import com.speedfast.interfaces.Auditable;
+import com.speedfast.interfaces.StrategyImplementation;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public abstract class Pedido implements Pedidos{
-    private final UUID idPedido;
-    private final String direccionEntrega;
-    private final float distanciaKm;
-    private float tiempoEstimadoEntregaMins;
-    private TipoPedido tipoPedido;
+public abstract class Pedido implements Auditable {
+    protected UUID idPedido;
+    protected String direccion;
+    protected float distancia;
+    protected int tiempoMs;
+    protected StrategyImplementation estrategia;
+    protected String repartidor;
+    protected List<String> historial = new ArrayList<>();
+    boolean activo = true;
+    boolean despachado = false;
 
-    public Pedido(String direccionEntrega, float distanciaKm) {
-        this.distanciaKm = distanciaKm;
+    public Pedido(StrategyImplementation estrategia) {
         this.idPedido = UUID.randomUUID();
-        this.direccionEntrega = direccionEntrega;
+        this.estrategia = estrategia;
+
+        this.historial.add("Pedido creado con id: " + this.getClass().getSimpleName() + " " + idPedido);
+        if (estrategia != null) {
+            estrategia.asignarRepartidor();
+        }
     }
 
-    public UUID getIdPedido() {
-        return idPedido;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getDireccionEntrega() {
-        return direccionEntrega;
+    public void setDistancia(float distancia) {
+        this.distancia = distancia;
+        this.tiempoMs = estrategia.calcularTiempo(distancia);
     }
 
-    public float getDistanciaKm() {
-        return distanciaKm;
-    }
+    @Override
+    public abstract void mostrarResumen();
 
-    public float getTiempoEstimadoEntregaMins() {
-        return tiempoEstimadoEntregaMins;
+    @Override
+    public void mostrarHistorial() {
+        for(String registro: historial){
+            System.out.println(registro);
+        }
     }
-
-    public void setTiempoEstimadoEntregaMins(float tiempoEstimadoEntregaMins) {
-        this.tiempoEstimadoEntregaMins = tiempoEstimadoEntregaMins;
-    }
-
-    public void setTipoPedido(TipoPedido tipoPedido) {
-        this.tipoPedido = tipoPedido;
-    }
-
-    public void asignarRepartidor(){
-        System.out.println("asignando repartidor");
-    }
-
-    public void mostrarResumen(){
-        System.out.println("LOGINFO: { Pedido: " + idPedido + ". Tipo: " + tipoPedido + ". Direccion: " + direccionEntrega + ". Distancia: " + distanciaKm + " Km }");
-    }
-
-    public abstract void calcularTiempoEntrega();
 }
