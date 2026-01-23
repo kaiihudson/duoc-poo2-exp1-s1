@@ -1,4 +1,4 @@
-package com.speedfast.model.interfaces;
+package com.speedfast.interfaces;
 
 public interface Rastreable {
     void verHistorial();
