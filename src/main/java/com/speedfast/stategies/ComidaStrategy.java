@@ -1,11 +1,12 @@
 package com.speedfast.stategies;
 
 import com.speedfast.interfaces.StrategyImplementation;
+import com.speedfast.model.repartidor.Repartidor;
 
 public class ComidaStrategy implements StrategyImplementation {
     @Override
     public int calcularTiempo(float distancia) {
-        return ((int)distancia * 2) + 15;
+        return (((int)distancia * 2) + 15) * 60000;
     }
 
     @Override
@@ -14,7 +15,7 @@ public class ComidaStrategy implements StrategyImplementation {
     }
 
     @Override
-    public void asignarRepartidor(String nombreRepartidor) {
-        System.out.println("Asignado a " + nombreRepartidor + " quien posee una mochila termica");
+    public void asignarRepartidor(Repartidor repartidor) {
+        System.out.println("Asignado a " + repartidor.getNombre() + " quien posee una mochila termica");
     }
 }

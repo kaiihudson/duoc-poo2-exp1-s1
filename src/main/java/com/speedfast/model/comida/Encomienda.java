@@ -1,11 +1,9 @@
-package com.speedfast.model;
+package com.speedfast.model.comida;
 
-import com.speedfast.interfaces.Cancelable;
-import com.speedfast.interfaces.Despachable;
-import com.speedfast.interfaces.Rastreable;
-import com.speedfast.interfaces.StrategyImplementation;
+import com.speedfast.interfaces.*;
+import com.speedfast.model.repartidor.Repartidor;
 
-public class Encomienda extends Pedido implements Cancelable, Despachable, Rastreable {
+public class Encomienda extends Pedido implements Asignable, Cancelable, Despachable, Rastreable {
     String embalaje;
     float peso;
 
@@ -36,14 +34,16 @@ public class Encomienda extends Pedido implements Cancelable, Despachable, Rastr
     }
 
     @Override
-    public void despachar(String repartidorAsignado) {
-        estrategia.asignarRepartidor(repartidorAsignado);
-        this.repartidor = repartidorAsignado;
-        if (despachado) {
-            super.historial.add("Se intento despachar un pedido ya despachado");
+    public void despachar() {
+        if (asignado) {
+            if (despachado) {
+                super.historial.add("Se intento despachar un pedido ya despachado");
+            } else {
+                despachado = true;
+                super.historial.add("Pedido despachado a cargo de " + repartidor.getNombre());
+            }
         } else {
-            despachado = true;
-            super.historial.add("Pedido despachado a cargo de " + repartidor);
+            super.historial.add("Se intento despachar un pedido sin asignar");
         }
     }
 
@@ -60,5 +60,14 @@ public class Encomienda extends Pedido implements Cancelable, Despachable, Rastr
                         ". Distancia: " + distancia + " Km. Tiempo estimado: " + tiempoMs +
                         " Peso: "+ peso +
                         ". Embajale: "+ embalaje +" }");
+    }
+
+    @Override
+    public void asignar(Repartidor repartidor) {
+        estrategia.asignarRepartidor(repartidor);
+        this.repartidor = repartidor;
+        if (!asignado) {
+            asignado = true;
+        }
     }
 }

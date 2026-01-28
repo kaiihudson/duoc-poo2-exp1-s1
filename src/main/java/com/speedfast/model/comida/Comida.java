@@ -1,11 +1,9 @@
-package com.speedfast.model;
+package com.speedfast.model.comida;
 
-import com.speedfast.interfaces.Cancelable;
-import com.speedfast.interfaces.Despachable;
-import com.speedfast.interfaces.Rastreable;
-import com.speedfast.interfaces.StrategyImplementation;
+import com.speedfast.interfaces.*;
+import com.speedfast.model.repartidor.Repartidor;
 
-public class Comida extends Pedido implements Cancelable, Despachable, Rastreable {
+public class Comida extends Pedido implements Asignable, Cancelable, Despachable, Rastreable {
     public Comida(StrategyImplementation estrategia) {
         super(estrategia);
     }
@@ -30,14 +28,16 @@ public class Comida extends Pedido implements Cancelable, Despachable, Rastreabl
     }
 
     @Override
-    public void despachar(String repartidorAsignado) {
-        estrategia.asignarRepartidor(repartidorAsignado);
-        this.repartidor = repartidorAsignado;
-        if (despachado) {
-            super.historial.add("Se intento despachar un pedido ya despachado");
+    public void despachar() {
+        if (asignado){
+            if (despachado) {
+                super.historial.add("Se intento despachar un pedido ya despachado");
+            } else {
+                despachado = true;
+                super.historial.add("Pedido despachado a cargo de " + repartidor.getNombre());
+            }
         } else {
-            despachado = true;
-            super.historial.add("Pedido despachado a cargo de " + repartidor);
+            super.historial.add("Se intento despachar un pedido sin asignar");
         }
     }
 
@@ -54,5 +54,14 @@ public class Comida extends Pedido implements Cancelable, Despachable, Rastreabl
                         ". Tipo: Comida. Direccion: " + direccion +
                         ". Distancia: " + distancia + " Km. Tiempo estimado: " + tiempoMs +
                         " }");
+    }
+
+    @Override
+    public void asignar(Repartidor repartidor) {
+        estrategia.asignarRepartidor(repartidor);
+        this.repartidor = repartidor;
+        if (!asignado) {
+            asignado = true;
+        }
     }
 }
