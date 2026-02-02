@@ -1,7 +1,8 @@
-package com.speedfast.model;
+package com.speedfast.model.comida;
 
 import com.speedfast.interfaces.Auditable;
 import com.speedfast.interfaces.StrategyImplementation;
+import com.speedfast.model.repartidor.Repartidor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,11 @@ public abstract class Pedido implements Auditable {
     protected float distancia;
     protected int tiempoMs;
     protected StrategyImplementation estrategia;
-    protected String repartidor;
+    protected Repartidor repartidor;
     protected List<String> historial = new ArrayList<>();
     boolean activo = true;
     boolean despachado = false;
+    boolean asignado = false;
 
     public Pedido(StrategyImplementation estrategia) {
         this.idPedido = UUID.randomUUID();
@@ -28,6 +30,10 @@ public abstract class Pedido implements Auditable {
         }
     }
 
+    public UUID getIdPedido() {
+        return idPedido;
+    }
+
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
@@ -35,6 +41,14 @@ public abstract class Pedido implements Auditable {
     public void setDistancia(float distancia) {
         this.distancia = distancia;
         this.tiempoMs = estrategia.calcularTiempo(distancia);
+    }
+
+    public int getTiempoMs() {
+        return tiempoMs;
+    }
+
+    public Repartidor getRepartidor() {
+        return repartidor;
     }
 
     @Override

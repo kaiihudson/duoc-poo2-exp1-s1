@@ -1,5 +1,5 @@
 package com.speedfast.interfaces;
 
 public interface Despachable {
-    void despachar(String repartidorAsignado);
+    void despachar();
 }
