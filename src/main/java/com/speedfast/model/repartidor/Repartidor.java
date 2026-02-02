@@ -27,14 +27,18 @@ public class Repartidor implements Runnable {
 
     @Override
     public void run() {
-        try {
+        while (!listaPedidos.isEmpty()) {
             Pedido p = (Pedido) listaPedidos.getFirst();
-            System.out.println("Despachando pedido " + p.getIdPedido() + ". Tiempo estimado de espera: " + p.getTiempoMs()/60000 +" mins.");
-            // simula tiempo de entrega with a minute delay inbetween
-            Thread.sleep(p.getTiempoMs() + 60000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            System.out.println("Despacho interrumpido");
+            try {
+                System.out.println("Despachando pedido " + p.getIdPedido() + ". Tiempo estimado de espera: " + p.getTiempoMs()/60000 +" mins.");
+                // simula tiempo de entrega with a minute delay inbetween
+                Thread.sleep(p.getTiempoMs() + 60000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                listaPedidos.remove(p);
+                System.out.println("Despacho interrumpido");
+            }
         }
+
     }
 }

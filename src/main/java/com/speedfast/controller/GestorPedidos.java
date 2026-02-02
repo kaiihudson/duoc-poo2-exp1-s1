@@ -35,9 +35,8 @@ public class GestorPedidos {
         return repartidores.size();
     }
 
-    public ExecutorService crearDispatcher(){
+    public void crearDispatcher(){
         ejecutor = Executors.newFixedThreadPool(getCurrentRepartidores());
-        return ejecutor;
     }
 
     public void killExecutor(){
